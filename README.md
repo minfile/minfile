@@ -6,7 +6,8 @@ I hope my notes can help beginners learning. :heart:
 希望這些筆記能幫助到正在學習的你:heart:
 
 ## Java Notes
-[How to learn Java](minfile/minfile/Ch1_HowLearningJava.md)
+[How to learn Java](minfile/minfile/Ch1_HowLearningJava.md)  
+[Java Introduction](minfile/Ch2HelloJava.md)
 
 
 <!---

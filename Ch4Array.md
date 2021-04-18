@@ -1,4 +1,4 @@
-## Ch4 Array
+## Ch4 Array  
 ### Introduction Array
 > Array多個相同類型數據按一定順序排列的集合  
 > 使用一個名字命名，並通過編號方式對這些數據進行統一處理

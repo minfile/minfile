@@ -68,4 +68,4 @@
 你現在可以選擇:  
 [Ch1 How to learn Java](https://github.com/minfile/minfile/blob/1cbf988b3e908f948ac6791743b970f63fd34ed5/Ch1_HowLearningJava.md)  
 [Ch2 Java Introduction](https://github.com/minfile/minfile/blob/1cbf988b3e908f948ac6791743b970f63fd34ed5/Ch2HelloJava.md)  
-[Ch3 Java variable](https://github.com/minfile/minfile/blob/1cbf988b3e908f948ac6791743b970f63fd34ed5/Ch3Variable.md)
+[Ch3 Java Basic](https://github.com/minfile/minfile/blob/5a67622c4a1016ab332bda215f16982065ae72fc/Ch3Basic1.md)

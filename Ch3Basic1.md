@@ -1,4 +1,4 @@
-## Ch3 Variable
+## Ch3 Basic
 
 ### 同一個class 可以有多個class類
 ```Java
@@ -64,6 +64,7 @@ Reference Type - class（String在這） , interface, array
 |boolean| |true \ false |
 
 ### Variable transfer (只有7種數據類型)
+#### Primitive Type
 1. 自動轉換
 > 當容量小的和容量大的做運算時，結果自動轉換
 + byte\ short\char -> int -> long -> float -> double
@@ -78,4 +79,54 @@ System.out.pringln(c1+i3);
 ```java
 double d1 = 12.9;
 int i = (int)dl
+```
+#### Reference Type
+1. String variable 
++ 字符串，使用一對"", 由多個char組成
++ String可以和8個基本數據類型做運算 ,並只能是+ (運算後依然是string)
+```Java
+String a= "Hi";
+int number = 123;
+System.out.println(a+number); //Hi123
+boolean b = true;
+System.out.println(a+b); //Hitrue
+```
+練習
+```Java
+char c = 'a'; //97
+int num = 10;
+String str = "Hello";
+System.out.println(c+num+str);                  //107Hello
+System.out.println(c+str+num);                  //aHello10
+System.out.println(c+(num+str));                //a10Hello
+System.out.println((c+num)+str);                //107Hello
+System.out.println(str+num+c);                  //Hello10a
+
+//--------------------------------
+System.out.println("*   *");
+System.out.println('*'+'\t'+'*'); //93
+System.out.println('*'+"\t"+'*');//*  *
+System.out.println('*'+'\t'+"*"); //51*
+System.out.println('*'+('\t'+"*"));//*  *
+```
+Excersice -can it run?
+```
+short s = 5;
+s = s-2;                                        //no
+
+byte b = 3;
+b = b + 4;                                       //no
+b = (byte)(b+4);                                 //yes
+
+char c = ‘a’;
+int i = 5;
+float d = .314F;
+double result = c+i+d;                            //yes
+
+byte b = 5;
+short s = 3;
+short t = s + b;                                        //no
+
+
+
 ```

@@ -8,7 +8,7 @@ I hope my notes can help beginners learning. :heart:
 ## Java Notes
 [How to learn Java](minfile/minfile/Ch1_HowLearningJava.md)  
 [Java Introduction](minfile/Ch2HelloJava.md)
-
+[Java basic](https://github.com/minfile/minfile/blob/5a67622c4a1016ab332bda215f16982065ae72fc/Ch3Basic1.md)
 
 <!---
 minfile/minfile is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.

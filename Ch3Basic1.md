@@ -127,6 +127,4 @@ byte b = 5;
 short s = 3;
 short t = s + b;                                        //no
 
-
-
 ```

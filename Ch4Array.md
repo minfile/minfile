@@ -103,3 +103,37 @@ yanghui [i] [j] = yanghui [i-1] [j-1] + yanghui [i-1] [j];
         }
     }
 ```
+> 面試題目：楊輝三角形
+
+```
+
+public class Ex1 {
+    public static void main(String[] args) {
+    int [][] a = new int[10][];
+    for(int i =0;i<a.length;i++){
+        a[i] = new int[i+1];
+        for(int j=0;j<=i;j++){
+            if(j==0 | j==i){
+                a[i][j] = 1;
+
+            }else {
+                a[i][j] = a[i-1][j-1] + a[i-1][j];
+
+            }
+        }
+
+
+    }
+    for(int k = 0;k<a.length;k++){
+        for(int l =0;l<k+1;l++){
+            System.out.print(a[k][l]+"  ");
+        }
+        System.out.println("");
+    }
+
+    }
+
+}
+
+
+```

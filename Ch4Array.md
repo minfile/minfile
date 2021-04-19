@@ -66,3 +66,40 @@ int [][] arr = new int[][]{{3,8,2},{2,7}};
 `int p[ x,y[]; x是一維數組，y是二維數組`
 
 ### 數組涉及到的常見算法
+1. 數組元素的賦值(楊輝三角、回形數等)
+2. 求數值型數組中元素最大值、最小值、平均數、總和等
+3. 數組的複製、反轉、查找(線性查找、二分法查找)
+4. 數組元素的排序算法
+#### 楊輝三角
+```
+/*
+
+使用二維複印打印一個10行楊輝三角。
+【提示】
+1.第一行有1個元素，第n行有n個元素
+2.每一行的第一個元素和最後一個元素都是1
+3.從第三行開始，對於非第一個元素和最後一個元
+素的元素。即：
+yanghui [i] [j] = yanghui [i-1] [j-1] + yanghui [i-1] [j];
+*/
+
+```
+> 面試題目：創建一個 長度為6的int型陣列，要求取值為1-30，同時元素值各不相同
+``` Java
+ int array[] = new int[6];
+       for (int i = 0;i<array.length;i++){
+           array[i] = (int)(Math.random()*30+1);
+          for(int j = 0;j<i;j++){
+              if(array[i] == array[j]){
+                  //array[i] = (int)(Math.random()*30+1);
+                  i--;
+                  break;
+              }
+          }
+
+       }
+        for(int k = 0;k<array.length;k++){
+            System.out.println(array[k]);
+        }
+    }
+```

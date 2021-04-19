@@ -105,7 +105,7 @@ yanghui [i] [j] = yanghui [i-1] [j-1] + yanghui [i-1] [j];
 ```
 > 面試題目：楊輝三角形
 
-```
+```Java
 
 public class Ex1 {
     public static void main(String[] args) {

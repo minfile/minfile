@@ -201,6 +201,27 @@ class RectangleTest {
 		}
 	}
 }
+```
+### Arrays 工具類的使用
+> java.util.Arrays類即為操作數組的工具類，包含了用作操作數組（比如排序和搜索）的各種方法
+|語句|用法|
+|--|--|
+|boolean equals(int[]a, int[]b)|判斷2個數組是否相等|
+|String toString(int [] a)|輸出數組信息|
+|void fill(int [] a,int bal)|將指定值填充到數組之中|
+|void sort(int[]a)|數組進行排序|
+|int binarySearch(int[]a,int key)|對排序後的數組進行二分法檢索指定的值|
 
+```Java
+import java.util.Arrays;
+public class SortTest {
+public static void main(String[] args) {
+int [] numbers = {5,900,1,5,77,30,64,700};
+Arrays.sort(numbers);
+for(int i = 0; i < numbers.length; i++){
+System.out.println(numbers[i]);
+}
+}
+}
 
 ```

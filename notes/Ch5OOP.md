@@ -133,6 +133,111 @@ Java通過私有的private 再提供公共public的方法: getXxx(), setXxx()來
 |---|---|---|---|--|
 |private|yes|||
 |缺省|yes|yes|||
-|protect|yesy|yes|yes||
+|protect|yes|yes|yes||
 |public |ys|ys|ys|ys|
 
+### 類的成員之三:構造器
+特徵:
++ 具有與類相同的名稱
++ 沒有返回值
++ 不能被static final synchronized abstract native修飾
+
+作用:
++ 創建對象，給對象進行初始化
+`Order o = new Order();`
+
+格式:
+```
+修飾符 類名(參數){
+語句
+}
+public Animal(){
+
+}
+```
+
+分類:
++ 隱式無參構造器(系統默認)
++ 顯示定義多個構造器
+> 至少一個構造器、默認構造器修飾符與類修飾符一樣、定義了構造器系統則不使用默認、可以overload、父類構造器不能被子類繼承
+
+### 屬性賦值過程
+1. 默認初始化
+2. 顯示初始化
+3. 構造器
+4. 通過對象.屬性 / 對象.方法賦值
+
+### 關鍵字: this
+this作用:
+> 調用類的屬性、方法和構造器
+this使用:
+> 需要調用該類方法、屬性、構造器
+
++ 可以在類構造器使用`this(形參)` 調用本類其他構造器
++ 一個構造器最多只能聲明一個**this()**
+
+### 關鍵字package、import
+package:
+> 定義類所在的包
+`package 頂層包名.子包名;`
+作用:
++ 幫助管理大型軟件系統:將功能相近類劃分到同一個包: MVC設計模式
++ 便於管理
++ 解決重名問題
++ 控制線職權
+
+### MVC設計模式
+model 模型層(處理數據)
+> model.bean/domain 數據對象封裝
+> model.dao 數據庫操作 
+> model.db 數據庫
+controller 控制層(處理業務邏輯)
+> controller.acitivity 引用界面相關
+> controller.fragment 存放fragment
+> controller.adapter 顯示列表適配器
+> controller.service 服務器
+> controller.base 抽取基類
+view顯示數據
+view.utils 工具類
+view.io 自定義的view
+controller -> model -> view
+
+### 包
+java.lang - 核心類
+java.net - 與網絡相關接口/類
+java.io - 輸入輸出
+java.util - 工具類
+java.text - java格式化相關的類
+java.sql - 數據庫接口
+java.awt - 抽象窗口工具 GUI
+`import 包名.類名;`
+
+--------------------------------------
+### 面向對象特徵之二: 繼承 inheritance
+為什麼要inheritance?
+> 多個類中存在相同屬性與行為時，將這些內容抽取到單獨類  
+多個類稱子類(subclass)，單獨類父類(superclass)
+“subclass is a superclass”
+語法規則:
+`class Subclass extends Superclass{}`
+作用:
++ 提高复用性
++ 利於功能曠張
++ 多態前提
+
+特徵:
++ 子類繼承父類，就繼承父類屬性和方法，也可以創建新的屬性/發那個發
++ **不能直接訪問private的成員變量和方法**-要get set
++ 只支持單繼承和多層繼承
+
+### 方法重寫 override/overwrite
+定義:
+> 子類可以根據父類繼承來的方法進行改造。子類的方法覆蓋父類發那個發
+要求:
++ 重寫方法名和參數一樣
++ 返回值類型不能大於父類返回值
++ 訪問權限不能小於父類
++ 子類拋出異常不能大於父類重寫方法異常
+**非static才重寫，或同時static(不是重寫)**
+
+### 關鍵字: super

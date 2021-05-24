@@ -268,3 +268,73 @@ Object o = new Person();
 
 // 編譯非法 - 編譯看左邊，左邊必須能通過
 ```
+#### Instanceof操作符
+```
+//X instancceof A: 檢查x是不是為A的對象，返回boolean
+public class Person extends Object {…}
+public class Student extends Person {…}
+public class Graduate extends Person {…}
+-------------------------------------------------------------------
+public void method1(Person e) {
+if (e instanceof Person) 
+// 处理Person类及其子类对象
+if (e instanceof Student) 
+//处理Student类及其子类对象
+if (e instanceof Graduate)
+//处理Graduate类及其子类对象
+}
+```
+#### 對象類型轉換
+向上轉型: 子類-> 父類 多態
+向下轉型: 父類->子類 使用instanceof判斷
+
+### Object 類使用
+Object是所有Java類的根父類
+#### == 和 equals
+==:
+基本數據類型比較: 只要2個變量值相等，即為true
+引用類型比較(是否指向同一對象): 如是同一對象 true
+equals(): 繼承object，獲得equals()方法，可以重寫
+`obj1.equals(obj2)`
+> 當用equals()方法進行比較，對於file、String、Date及包裝類 是比較類型及內容而不考慮是否引用同一對象 原因是:重寫equales()
+
+#### toString()方法
+> toString()在Object class定義，返回值是String,返回類名和地址
+```
+Date now=new Date();
+System.out.println(“now=”+now); 相当于
+System.out.println(“now=”+now.toString());
+
+可以根据需要在用户自定义类型中重写toString()方法
+如String 类重写了toString()方法，返回字符串的值。
+s1=“hello”;
+System.out.println(s1);//相当于System.out.println(s1.toString());
+基本类型数据转换为String类型时，调用了对应包装类的toString()方法
+int a=10; System.out.println(“a=”+a);
+
+```
+### 包裝類使用 Wrapper class
+基本數據類型--裝箱
+```
+int i = 500;
+Integer t = new Integer(i);
+Float f = new Float("4.56");
+
+//猜箱
+boolean b = bObj.booleanValue();
+// JDK1.5之后，支持自动装箱，自动拆箱。但类型必须匹配。
+
+```
+引用數據: 字符串
++ 字符串转换成基本数据类型
+通過構造器:
+`int i = new Integer("12")`
+通过包装类的parseXxx(String s)静态方法：
+`Float f = Float.parseFloat("12.1")`
++ 字符串转换成基本数据类型
+```
+调用字符串重载的valueOf()方法：
+String fstr = String.valueOf(2.34f);
+ 更直接的方式：
+String intStr = 5 + “”
+```

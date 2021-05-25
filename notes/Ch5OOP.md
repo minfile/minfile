@@ -325,6 +325,7 @@ boolean b = bObj.booleanValue();
 // JDK1.5之后，支持自动装箱，自动拆箱。但类型必须匹配。
 
 ```
+```
 引用數據: 字符串
 + 字符串转换成基本数据类型
 通過構造器:
@@ -338,7 +339,6 @@ boolean b = bObj.booleanValue();
 String fstr = String.valueOf(2.34f);
 //更直接的方式：
 String intStr = 5 + ""
-
 ```
 ---
 ### 關鍵字: Static
@@ -356,4 +356,371 @@ static double radius = 12.0; 類變量
 > 分析哪些屬性**不因對象不同而改變**，將這些屬性設為類屬性
 > 如果方法和調用者無關，則定義為類方法，不需要**創建對象就可以調用類方法**
 
-使用範圍
+使用範圍:
+> static修飾: 屬性、方法、代碼塊、內部類
+
+修飾後的特點:
++ 隨著類加載而加載
++ 優先於對象存在
++ 修飾的成員，被所有對象共享
++ 訪問權限允許時，可不創建對象，直接調用
+
+`Person.total = 100;` 去訪問靜態成員
+`Person.method1()`去訪問static方法
+> **在static方法內，只能訪問static屬性**
+> 因為static不需要實例，因此static不能有this(也不能有super)
+> static修飾的方法不能被重寫
+
+#### 單例設計模式(Singleton)
+> 只能存在一個對象實例，並提供取得instance的方法
+step 1: 構造器的權限設置為private 因此不能在外new對象
+step 2: 調用靜態方法，以返回類內部創建的對象
+step 3: 由於方法只能訪問靜態成員變量，必須是static
+```
+//餓漢式
+class Singleton{
+  private static Singleton singleton = new singleton();
+  public static Singleton(){ }
+  public static Singleton getInstance(){
+    return singleton;
+  }
+}
+//懶漢式 --- 存在線程安全問題
+class Singleton{
+  private Singleton(){ }
+  private static Singleton single;
+  public static Singleton getInstance(){
+    if(single==null){
+      single = new Singleton();
+    }
+    return single;
+  }
+}
+```
++ 優點:
+減少系統性能開銷 -> 一個對象的產生需要較多資源，如讀取配置、產生其他依賴對象時，則可以通過在應用啟動時直接產生一個單例對象，永久駐留內存的方式來解決
+
++ 應用場景:
+網站計時器 - 易於同步
+應用程序的日志應用 - 共享的日誌文件一直處於打開狀態
+數據庫連接池 
+讀取配置文件的類
+application
+task manager 任務管理器
+recycle bin 回收站
+
+### 理解main方法的語法
+> 是public: 因為JVM 需要調用類的main()方法
+> 是static: 因為不必創建對象，不能直接訪問該類的非靜態成員，必須創建實例，才能訪問
+> 有String 參數: 保存執行Java命令時傳遞給所運行的類的參數
+
+### 類的成員之四：代碼塊
+作用:
+> 對Java類/對象進行初始化
+> 若代碼塊有修飾符，則只能被static修飾 - 靜態代碼塊
+> 若沒有static修飾 - 非靜態代碼塊
+```
+
+class Program{
+  public static int total;
+  static{
+    total = 100;
+  }
+}
+```
+| |靜態代碼塊|非靜態代碼塊|
+|---|---|---|
+|1. |可以有輸出語句|same|
+|2. |可以對類的屬性、類的聲明進行初始化|same|
+|3. |不可以調用非靜態的屬性和方法|可以調用靜態和非靜態方法和屬性|
+|4. |多個代碼塊，則從上到下順序執行|same|
+|5. |靜態代碼執行先於非靜態||
+|6. |靜態代碼隨著類加載而加載，只執行一次|每次new object都只會執行一次，且先於構造器執行|
+
+次序:
+1. 聲明成員變量的默認初始化
+2. 顯示初始化，多個初始化塊依次執行
+3. 構造器對成員進行初始化
+4. 通過對象.屬性/方法 賦值
+
+### 關鍵字: final-"最終的"
+> 可以聲明類、變量、方法
+> final標記的類不能被繼承
+> final標記的方法不能重謝
+> final標記的變量 (要大寫) 只能賦值一次
+
+### 抽象類與抽象方法
+> 將一個父類設計得非常抽象，沒有具體實例，便是抽象類  
+> 用abstract關鍵字修飾 -- 抽象類  
+> 用abstract修飾一個方法 -- 抽象方法 -- 只有方法聲明，沒有方法實現，以分號結束`public abstract void talk();`  
+> 含有抽象方法的類 必須 聲明為抽象類  
+> 抽象類不能實例化，是用來被繼承的。抽像類的子類必須重寫父類的抽象方法，並提供方法體。 若沒有重寫，則是抽象類  
+> 不能用abstract修飾變量、代碼塊、構造器  
+> 不能用abstract修飾私有方法、靜態方法、final方法、final的類  
+抽象類:
+是用來模型化哪些父類無法確定全部實現，而是由子類提供具體實現的對象類
+
+### 接口Interface
+> 因為Java不支持多重繼承，有了接口就可以有多繼承  
+> 必須從幾個類中抽取出一些共同的行為特徵，而他們之間又沒有is-a 關係。  
+> 繼承是"是不是關係"，接口是"能不能關係"  
+> 接口本質是契約，標準，規範的
+接口是**抽象方法** 和 **常量值**定義的集合
+接口特點:  
+- 用Interface 定義
+- 成員變量是默認為public static final
+- 抽出方法默認為public abstract
+- 接口**沒有構造器**
+- 接口採用多繼承機制
+接口定義舉例:
+```
+public interface Runner{
+  int ID = 1; //public static final int ID = 1;
+  void start(); //public abstract void start();
+  public void run(); //public abstract void run();
+  void stop();
+}
+```
+
+定義Java類的格式: 先寫extends， 後寫implements
+> 一個類可以繼承多個接口，接口可以繼承其他接口  
+> 實現接口的類必須提供接口中所有方法具體內容，才可以實例化，否則依然是抽像類  
+> 接口主要用途就是被實現類實現  
+> 接口與類存在多態性
+```
+interface Runner { public void run();}
+interface Swimmer {public double swim();}
+class Creator{public int eat(){…}} 
+
+class Man extends Creator implements Runner ,Swimmer{ //一個類可以實現多個無關接口
+public void run() {……}
+public double swim() {……}
+public int eat() {……}
+}
+// 存在多態性
+public class Test{
+public static void main(String args[]){
+Test t = new Test();
+Man m = new Man();
+t.m1(m);
+t.m2(m);
+t.m3(m);
+}
+public String m1(Runner f) { f.run(); }
+public void m2(Swimmer s) {s.swim();}
+public void m3(Creator a) {a.eat();}
+}
+
+```
+
+#### 接口引用 - 代理模式(Proxy)
+> 代理設計是為其他對象提供一種代理以控制對這個對象的訪問
+```
+interface Network{
+  public void browse();
+}
+class RealServer implements Network{ //被代理
+  public void browse(){
+    System.out.println("真實服務器上網瀏覽信息");
+  }
+}
+//代理類
+class ProxyServer implements Network{
+  private Network network;
+  public ProxyServer(Network network){
+    this.network = network;
+  }
+  public void check(){
+    System.out.println("檢查網絡連接等操作");
+  }
+  public void browse(){
+    check();
+    network.browse();
+  }
+
+}
+
+public class Demo{
+  public static void main(String[] args){
+    Network net = new ProxyServer(new RealServer());
+    net.browse();
+  }
+
+}
+```
+應用場景: 
++ 安全代理: 屏蔽對真實角色的直接訪問
++ 遠程代理: 通過代理類處理遠程方法調用(RMI)
++ 延遲加載: 先加載輕量級的代理對象，真正需要加載真實對象
+
+比如你要开发一个大文档查看软件，大文档中有大的图片，有可能一个图片有  
+100MB，在打开文件时，不可能将所有的图片都显示出来，这样就可以使用代理  
+模式，当需要查看图片时，用proxy来进行大图片的打开。  
+
+在Java8中，可以為接口添加靜態方法/默認方法。  
+靜態方法: 以tatic修飾，可以通過接口直接調用靜態方法  
+默認方法：deault關鍵字修飾，可以通過實現類對象來調用
+
+```
+public interface AA {
+double PI = 3.14;
+public default void method() {
+System.out.println("北京");
+}
+default String method1() {
+return "上海";
+}
+public static void method2() {
+System.out.println(“hello lambda!");
+}
+}
+```
+接口衝突:若2個接口有同名同參數方法
+解決: 实现类必须覆盖接口中同名同参数的方法，来解决冲突。  
+
+若一个接口中定义了一个默认方法，而父类中也定义了一个同名同参数的非
+抽象方法，则不会出现冲突问题。因为此时遵守：类优先原则。接口中具有
+相同名称和参数的默认方法会被忽略。
+```
+interface A{
+  default void help(){System.out.println("老妈，我来救你了"); 
+  }
+}
+interface B{
+  default void help(){System.out.println("BB，我来救你了");
+  }
+}
+class Man implements A,B{
+  public void help(){
+    System.out.println("what can i do?");
+    A.super.help();
+    B.super.help();
+  }
+}
+```
+### 類的內部成員之五: 內部類
+內部類: 
+> 一個事物的內部，還需要一個完整的結構進行描述，而這個內部的完整結構只為外部事物提供服務，那麼這個內部的完整結構是內部類
+分類:
+成員內部類(static成員內部類 和 非成員內部類)
+局部內部類(不談修飾符)、匿名內部類
+
+
+成員內部類作為類的成員角色
++ 可以聲明private / protected
++ 可以調用外部類的結構
++ 可以是static
+
+成員內部類作為類的角色
++ 可以在內部定義屬性、方法、構造器
++ 可以聲明為abstract類
++ 可以聲明為final 的
++ 編譯以後生產OuterClass$InnerClass.class
+
+注意:
+1. 非static的成员内部类中的成员不能声明为static的，只有在外部类或static的成员
+内部类中才可声明static成员。
+2. 外部类访问成员内部类的成员，需要“内部类.成员”或“内部类对象.成员”的方式
+3. 成员内部类可以直接使用外部类的所有成员，包括私有的数据
+4. 当想要在外部类的静态成员部分使用内部类时，可以考虑内部类声明为静态的
+```
+
+class Outer {
+private int s;
+public class Inner {
+public void mb() {
+s = 100;
+System.out.println("在内部类Inner中s=" + s);
+}
+}
+public void ma() {
+Inner i = new Inner();
+i.mb();
+}
+}
+public class InnerTest {
+public static void main(String args[]) {
+Outer o = new Outer();
+o.ma();
+}
+}
+----------------
+public class Outer {
+private int s = 111;
+public class Inner {
+private int s = 222;
+public void mb(int s) {
+System.out.println(s); // 局部变量s
+System.out.println(this.s); // 内部类对象的属性s
+System.out.println(Outer.this.s); // 外部类对象属性s
+}
+}
+public static void main(String args[]) {
+Outer a = new Outer();
+Outer.Inner b = a.new Inner();
+b.mb(333);
+}
+}
+```
+
+如何聲明局部內部類
+```
+class 外部类{
+  方法(){
+    class 局部内部类{
+      }
+  }
+{
+class 局部内部类{
+    }
+  }
+}
+
+如何使用局部内部类
+1. 只能在声明它的方法或代码块中使用，而且是先声明后使用。除此之外的任何地方
+都不能使用该类
+2. 但是它的对象可以通过外部方法的返回值返回使用，返回值类型只能是局部内部类
+的父类或父接口类型
+
+```
+ 局部内部类的特点
+ 内部类仍然是一个独立的类，在编译之后内部类会被编译成独立的.class文件，但
+是前面冠以外部类的类名和$符号，以及数字编号。
+ 只能在声明它的方法或代码块中使用，而且是先声明后使用。除此之外的任何地方
+都不能使用该类。
+ 局部内部类可以使用外部类的成员，包括私有的。
+ 局部内部类可以使用外部方法的局部变量，但是必须是final的。由局部内部类和局
+部变量的声明周期不同所致。
+ 局部内部类和局部变量地位类似，不能使用public,protected,缺省,private
+ 局部内部类不能使用static修饰，因此也不能包含静态成员
+
+匿名內部類:
+ 匿名内部类不能定义任何静态成员、方法和类，只能创建匿名内部类的一
+个实例。一个匿名内部类一定是在new的后面，用其隐含实现一个接口或
+实现一个类。
+ 格式：
+new 父类构造器（实参列表）|实现接口(){
+//匿名内部类的类体部分
+}
+ 匿名内部类的特点
+ 匿名内部类必须继承父类或实现接口
+ 匿名内部类只能有一个对象
+ 匿名内部类对象只能使用多态形式引用
+```
+interface A{
+public abstract void fun1();
+}
+public class Outer{
+public static void main(String[] args) {
+new Outer().callInner(new A(){
+//接口是不能new但此处比较特殊是子类对象实现接口，只不过没有为对象取名
+public void fun1() {
+System.out.println(“implement for fun1");
+}
+});// 两步写成一步了
+}
+public void callInner(A a) {
+a.fun1();
+}
+} 
+```

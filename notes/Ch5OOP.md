@@ -333,8 +333,27 @@ boolean b = bObj.booleanValue();
 `Float f = Float.parseFloat("12.1")`
 + 字符串转换成基本数据类型
 ```
-调用字符串重载的valueOf()方法：
-String fstr = String.valueOf(2.34f);
- 更直接的方式：
-String intStr = 5 + “”
 ```
+//调用字符串重载的valueOf()方法：
+String fstr = String.valueOf(2.34f);
+//更直接的方式：
+String intStr = 5 + ""
+
+```
+---
+### 關鍵字: Static
+> 某些特定數據在內存只有一份
+```
+class Circle{
+private double radius; //instance variable實例變量
+public Circle(double radius){
+this.radius = radius; 
+}
+static double radius = 12.0; 類變量
+}
+```
+設計思想
+> 分析哪些屬性**不因對象不同而改變**，將這些屬性設為類屬性
+> 如果方法和調用者無關，則定義為類方法，不需要**創建對象就可以調用類方法**
+
+使用範圍

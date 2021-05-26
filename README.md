@@ -10,8 +10,8 @@ I hope my notes can help beginners learning. :heart:
 [Java Introduction](minfile/Ch2HelloJava.md)  
 [Java basic](https://github.com/minfile/minfile/blob/5a67622c4a1016ab332bda215f16982065ae72fc/Ch3Basic1.md)  
 [Java array](notes/Ch4Array.md)  
-[Java OOP](notes/Ch5OOP.md)
-[Java exception]
+[Java OOP](notes/Ch5OOP.md)  
+[Java exception](https://github.com/minfile/minfile/blob/59533ea5a2be68333306e96fb0413df802150a0c/notes/Ch6%20Exception.md)
 <!---
 minfile/minfile is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 You can click the Preview link to take a look at your changes.

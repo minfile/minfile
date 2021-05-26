@@ -162,6 +162,79 @@ public class A {
 ```
 
 ### 手動拋出異常
+step1: 創建要生成異常類對象，通過throw語句實現拋出操作
+```
+public class Outerclass {
+    int day;
+   public void checkDay(int day) throws Exception{ //step1
+       this.day = day;
+       if(day>30){
+           throw new Exception("你的day大於30"); //step2
+       }
+   }
 
+    public static void main(String[] args) {
+        Outerclass ot = new Outerclass();
+       try{                             //step3
+            ot.checkDay(31);
+        }catch (Exception e){
+           System.out.println(e.getMessage());
+       }
+    }
+}
+
+```
+### 用戶自定義異常類
+> 一般用戶自定義異常類都是RuntimeException的子類  
+> 自定義異常類通常需要編寫幾個**重載構造器**
+> 自定義類的異常通常需要**提供serialVersionUID**  
+> 通過throw拋出
+
+```
+//必須繼承
+class MyException extends Exception{
+  static final long servialVersionUID = 13212311L;
+  private int idnumber;
+  
+  public MyException(String message,int id){
+    super(message);
+    this.idnumber = id;
+  }
+  public int getID(){
+    return idnumber;
+  }
+
+}
+
+public class Test{
+  public void regist(int num) throws MyException{
+  if(num<0) throw new MyException("不能這樣啊"); //注意throw沒有s
+  }
+  public void manager() {
+    try {
+        regist(100);
+    } catch (MyException e) {
+        System.out.print("登记失败，出错种类" + e.getId());
+    }
+        System.out.print("本次登记操作结束");
+    }
+    public sttaic void main(String [] args){
+      Test t = new Test();
+      t.manager();
+  }
+}
+
+```
+總結:
+try-catch-finally:  
+執行可能異常的代碼  
+抓取異常  
+無論如何都發生的代碼  
+
+throw:  
+在手動拋出異常對象時使用
+
+throws:  
+異常處理方式
 
 

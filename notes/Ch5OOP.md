@@ -601,10 +601,135 @@ class Man implements A,B{
 ### 類的內部成員之五: 內部類
 內部類: 
 > 一個事物的內部，還需要一個完整的結構進行描述，而這個內部的完整結構只為外部事物提供服務，那麼這個內部的完整結構是內部類
-分類:
-成員內部類(static成員內部類 和 非成員內部類)
-局部內部類(不談修飾符)、匿名內部類
+> 一般情況下，類和類之間是互相獨立的，內部類的意思就是打破這個獨立。讓一個類成另外一個類的內部成員，和成員變量、成員方法同等級別
 
+分類:
+成員內部類：
++ static
+> 靜態內部類結構不需要依賴於外部類對象，類中的所有靜態組件都不需要依賴任何對象，可以直接通過類本身進行構造
+```
+public class Outerclass {
+    public static void main(String[] args) {
+        Outer ot = new Outer();
+        ot.display();
+        Outer.Inner in = new Outer.Inner();
+        in.display();
+    }
+}
+
+class Outer{
+    private String name = "peter";
+    public String getName(){
+        return name;
+    }
+    public void display(){
+        System.out.println(getName());
+
+
+    }
+
+    public static class Inner{
+        private String innerName;
+        public Inner(){
+            innerName = "inner class";
+        }
+
+        public void display(){
+            System.out.println("Inner class display");
+            System.out.println(innerName);
+        }
+
+    }
+}
+```
+
++ 非static
+> 將內部類當作外部類的
+> 一個成員變量/成員方法來使用，所以必須依賴於外部類的對象才能調用，用法和成員變量/成員方法是一致的
+為什麼使用內部類?
++ 可以隱藏細節和內部結構，封裝性更好，讓程序結構更加合理
+
+```Java
+public class HelloWorld{
+
+     public static void main(String []args){
+        //先New outerclass
+        Outerclass ot = new Outerclass();
+        System.out.println(ot.getName());
+        
+        //注意格式 - Classname . InnerClassname name = object.new innerClassname();
+        
+        Outerclass.InnerClass inner = ot.new InnerClass();
+        System.out.println(inner.getName());
+        
+     }
+}
+class Outerclass{
+    
+    private String name = "peter";
+    public String getName(){
+        return name;
+    }
+    class InnerClass{
+        String name = "inner";
+        public String getName(){
+            return name;
+        }
+    }
+}
+
+```
+局部內部類(不談修飾符)
+```
+public class Outerclass {
+    public static void main(String[] args) {
+        Outer ot = new Outer();
+        ot.display();
+    }
+}
+
+class Outer{
+    String name = "outer";
+    public void display(){
+        class InnerClass{
+            String name = "inner";
+            public void show(){
+                System.out.println(name);
+            }
+        }
+        //在方法內部創建
+        InnerClass inner = new InnerClass();
+        inner.show();
+    }
+}
+
+```
+匿名內部類
+```
+//正常是這樣的
+public interface MyInterface {
+    public void task();
+}
+public class MyImplement implements MyInterface{
+  public void task(){
+    System.out.println("do something");
+  }
+}
+
+public class ImpleTest{
+//正常做法
+  MyInterface myinterface = new MyImplement();
+  myinterface.task();
+//匿名做法 -- 不需要單獨開一個文件，直接在裡面寫。缺點:耦合高
+  MyInterface myinter = new MyInterface(){
+    public void test(){
+      System.out.println("匿名");
+    }
+  }
+  myinter.test();
+}
+
+```
 
 成員內部類作為類的成員角色
 + 可以聲明private / protected
@@ -626,50 +751,51 @@ class Man implements A,B{
 ```
 
 class Outer {
-private int s;
-public class Inner {
-public void mb() {
-s = 100;
-System.out.println("在内部类Inner中s=" + s);
-}
-}
-public void ma() {
-Inner i = new Inner();
-i.mb();
-}
+  private int s;
+  //內部類也可以當一個接口
+  public class Inner {
+    public void mb() {
+    s = 100;
+    System.out.println("在内部类Inner中s=" + s);
+    }
+  }
+  public void ma() {
+    Inner i = new Inner();
+    i.mb();
+  }
 }
 public class InnerTest {
-public static void main(String args[]) {
-Outer o = new Outer();
-o.ma();
-}
+  public static void main(String args[]) {
+    Outer o = new Outer();
+    o.ma();
+  }
 }
 ----------------
 public class Outer {
-private int s = 111;
-public class Inner {
-private int s = 222;
-public void mb(int s) {
-System.out.println(s); // 局部变量s
-System.out.println(this.s); // 内部类对象的属性s
-System.out.println(Outer.this.s); // 外部类对象属性s
-}
+  private int s = 111;
+  public class Inner {
+    private int s = 222;
+    public void mb(int s) {
+      System.out.println(s); // 局部变量s
+      System.out.println(this.s); // 内部类对象的属性s
+      System.out.println(Outer.this.s); // 外部类对象属性s
+    }
 }
 public static void main(String args[]) {
-Outer a = new Outer();
-Outer.Inner b = a.new Inner();
-b.mb(333);
-}
+  Outer a = new Outer();
+  Outer.Inner b = a.new Inner();
+  b.mb(333);
+  }
 }
 ```
 
-如何聲明局部內部類
+如何聲明**局部內部類**
 ```
 class 外部类{
   方法(){
     class 局部内部类{
       }
-  }
+   }
 {
 class 局部内部类{
     }
@@ -683,44 +809,50 @@ class 局部内部类{
 的父类或父接口类型
 
 ```
- 局部内部类的特点
- 内部类仍然是一个独立的类，在编译之后内部类会被编译成独立的.class文件，但
+**局部内部类的特点**:
+
++ 内部类仍然是一个独立的类，在编译之后内部类会被**编译成独立的.class文件**，但
 是前面冠以外部类的类名和$符号，以及数字编号。
- 只能在声明它的方法或代码块中使用，而且是先声明后使用。除此之外的任何地方
+
++ 只能在声明它的 **方法** 或 **代码块** 中使用，而且是先声明后使用。除此之外的任何地方
 都不能使用该类。
- 局部内部类可以使用外部类的成员，包括私有的。
- 局部内部类可以使用外部方法的局部变量，但是必须是final的。由局部内部类和局
-部变量的声明周期不同所致。
- 局部内部类和局部变量地位类似，不能使用public,protected,缺省,private
- 局部内部类不能使用static修饰，因此也不能包含静态成员
+
++ 局部内部类可以使用**外部类的成员，包括私有的。**  
+
++ 局部内部类可以使用外部方法的 **局部变量**，但是**必须是final的** 。由局部内部类和局
+部变量的声明周期不同所致。  
+
++ 局部内部类和局部变量地位类似，不能使用**public,protected,缺省,private**  
+
++ 局部内部类不能使用static修饰，因此也不能包含静态成员  
 
 匿名內部類:
- 匿名内部类不能定义任何静态成员、方法和类，只能创建匿名内部类的一
-个实例。一个匿名内部类一定是在new的后面，用其隐含实现一个接口或
-实现一个类。
- 格式：
+> 匿名内部类不能定义任何**静态成员、方法和类**，只能创建匿名内部类的**一个实例**。一个匿名内部类一定是在new的后面，用其隐含实现一个接口或实现一个类。  
+
+格式：
 new 父类构造器（实参列表）|实现接口(){
 //匿名内部类的类体部分
 }
- 匿名内部类的特点
- 匿名内部类必须继承父类或实现接口
- 匿名内部类只能有一个对象
- 匿名内部类对象只能使用多态形式引用
+匿名内部类的特点: 
++ 匿名内部类必须**继承父类或实现接口**
++ 匿名内部类只能有一个对象
++ 匿名内部类对象只能使用**多态形式引用**
 ```
 interface A{
-public abstract void fun1();
+  public abstract void fun1();
 }
 public class Outer{
-public static void main(String[] args) {
-new Outer().callInner(new A(){
-//接口是不能new但此处比较特殊是子类对象实现接口，只不过没有为对象取名
-public void fun1() {
-System.out.println(“implement for fun1");
+  public static void main(String[] args) {
+    new Outer().callInner(new A(){
+    //接口是不能new但此处比较特殊是子类对象实现接口，只不过没有为对象取名
+      public void fun1() {
+        System.out.println(“implement for fun1");
+      }
+     }
+  );// 两步写成一步了
 }
-});// 两步写成一步了
-}
-public void callInner(A a) {
-a.fun1();
-}
+  public void callInner(A a) {
+    a.fun1();
+  }
 } 
 ```

@@ -253,6 +253,51 @@ public Test{
 > ReentrantLock 類實現了Lock,它擁有與syncharonized相同的並發性和內存語義，在實現線程安全的控制中，比較常用的是reentrantLock，可以顯式加鎖、釋放鎖。
 
 
+```
+class A{
+  private final ReentrantLock lock = new ReenTrantLock();
+  public void m(){
+    lock.lock();
+    try{
+      //保證線程安全的代碼;
+    }finally{
+      lock.unlock();
+    }
+  }
+}
+```
+### synchronized與lock的對比
+|Lock|Sysnchronized|
+|--|--|
+|是顯示鎖，手動釋放|隱式鎖，自動釋放|
+|有代碼塊鎖|有代碼塊鎖和方法鎖|
+|JVM將花費較少時間調度線程，性能更好，並具有更好擴展性||
 
+優先使用順序:
+Lock -> 同步代碼塊 -> 同步方法
 
+### 線程的通訊
+`wait()`: 令當前線程掛起並放棄CPU、同步資源並等待，使別的線程可訪問並修改共享資源，而當線程排隊等候其他線程調用notify()或notifyALL()方法喚醒，喚醒後等待重新獲得對監視器的所有權後才能繼續執行
+
+`notify()`: 喚醒正在排隊等待同步資源的線程中優先級最高者結束等待  
+`notifyAll()`: 喚醒正在排隊等待資源的所有線程結束等待  
+**只能在synchronized方法或synchronized代碼塊中使用**，否則會出現Exception  
+
+### wait()方法
+在當前線程中調用方法: 對象名.wait()    
+使當前線程進入等待(某對象)狀態，直到另一線程對該對象發出notify / notifyAll為止 - 重新獲得監控權，然後從斷點處繼續代碼的執行  
+使用條件: 必須有監控權
+使用該方法後: 當前線程將釋放對象監控權，進入等待  
+### notify() / notifyAll()
+調用方法: 對象名.notify()  
+功能: 喚醒等待該對象監控器的一個/所有線程
+調用方法條件: 當前線程將釋放對象監控權
+
+### JDK5.0新增線程創建方法
+實現Callable接口
+- Callable比Runnable功能更強大
+- 相比run()方法，可以有返回值
+- 方法可以拋出異常
+- 支持泛型的返回值
+- 需要借助Future Task
 

@@ -294,10 +294,20 @@ Lock -> 同步代碼塊 -> 同步方法
 調用方法條件: 當前線程將釋放對象監控權
 
 ### JDK5.0新增線程創建方法
-實現Callable接口
+方式一: 實現Callable接口
 - Callable比Runnable功能更強大
 - 相比run()方法，可以有返回值
 - 方法可以拋出異常
 - 支持泛型的返回值
 - 需要借助Future Task
 
+Future接口
+ - 可以對具體Runnable、Callable任務的執行結果進行取消、查詢是否完成、獲取結果等
+ - FutureTask是Future接口的唯一的實現類
+ - FutureTask 同時實現了Runnable, Future接口。 它既可以作為Runnable被線程執行，有可以作為Future得到Callable的返回值
+
+方式二: 線程池相關API
+5.0的API: ExecutorService 和 Executors
+ExecutorService: 真正的線程池接口
+
+Executors: 工具類、線程池的工廠類

@@ -101,11 +101,54 @@ run(): 線程在被調用的操作
 String getName(): 返回線程名稱
 void setName(String name): 設置該線程名稱
 static Thread currentThread():返回當前線程。在Thread子類中就是this，通常用於主線程和Runnable實現類
-static void yield(): 線程讓步
-join(): 當某個程序執行調用其他線程的join()方法時，調用線程將被阻塞，直到join()方法加入的join線程執行完為止
-static void sleep(long millis): (指定時間:毫秒)  
+static void yield(): 線程讓步 - 暫停當前執行的線程，把它讓給優先級相同或更高的線程
+join(): 當某個程序執行調用其他線程的join()方法時，調用線程將被阻塞，直到join()方法加入的join線程執行完為止 - 低優先線程也可以獲得執行
+static void sleep(long millis): (指定時間:毫秒)   - 令當前活動線程在指定時間內放棄對CPU控制
 stop():強制線程聲明期結束 不推薦使用
-boolean isAlive()
+boolean isAlive(): 判斷線程是否活著
 
 ```
+Java的調度方法
+> 同優先級線程組成先進縣出隊，使用時間片策略
+> 對高優先級，使用優先調用的搶占式策略
+
 ```
+MAX_PRIORITY:10
+MIN_PRIORITY:1
+NORM_PRIORITY:5
+
+getPriority(): 返回當前線程優先值
+setPriority(int newPriority): 改變線程的優先級
+
+說明:
+> 線程創建時繼承父線程的優先級  
+> 低優先級只是獲得調度的概率低，並非一定是在高優先級線程之後才被調用
+
+線程分類
+- 守護線程: 用來服務用戶線程的，通過start()方法前調用thread.setDaemon(true) 把用戶線程變成守護線程
+  - Java垃圾回收
+  - 若JVM是守護線程，當前JVM退出
+  
+- 用戶線程: -運行前台的線程，而守護線程是運行在後台的線程
+
+```
+### 線程的生命週期
+1. 新建: 當一個Thread或其子類的對象被聲明並創建時，新生的線程對象處於新建狀態
+2. 就緒: 處於新建狀態的線程被start()後，將進入線程隊列等待CPU時間片,此時它已具備運行的條件，只是沒分配到CPU資源
+3. 運行: 進入運行狀態，run()方法定義了線程的操作和功能
+4. 阻塞: 掛起執行/輸入輸出操作，讓出CPU並臨時終止自己的執行，進入阻塞狀態
+5. 死亡: 線程完成了全部工作/線程被提前強制性地中止/出現異常導致結束
+
+```mermaid
+graph LR
+A[新建] -->B[就緒]
+B --> C[運行]
+C --> D[阻塞]
+D --> B
+C --> E[死亡]
+   
+​```
+
+
+
+

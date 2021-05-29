@@ -8,6 +8,7 @@
 > String 實現serializable接口:表示字符串支持序列化， Comparable接口，可以比較大小
 > final char [] valie用於儲存字符串數量
 > 不可變
+
 ```Java
 public void Test1(){
 
@@ -18,7 +19,6 @@ public void Test1(){
   
   
 }
-
 ```
 
 

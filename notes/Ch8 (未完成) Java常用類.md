@@ -186,9 +186,34 @@ java.time.format - 格式化和解析時間和日期
 java.time.temporal - 包含底層框架和擴展特性  
 java.time.zone - 包含時區支持的類  
 
+實例是不可變的對象: 
+LocalDate - 代表IOS格式yyyy-MM-dd 的日期，可以存儲生日、紀念日等日期
+LocalTime - 表示一個時間，而不是日期  
+LocakDateTime - 用來表示日期和時間，這是一個最常用的類之一  
+|方法|描述|
+|--|--|
+|now() / now(Zoneld zone)|靜態方法，根據當前時間創建對象|
+|of()| 靜態方法，根據指定日期/時間創建對象|  
+|getDayOfMonth() / getDayOfYear() |獲得月份天數/ 獲得年份天數|
+|getDayOfWeek() |獲得星期幾|  
+|getMonth()|獲得月份，返回一個Month枚舉|
+|getMonthValue() / getYear()|獲得月份|
+|getHour() / getMinute()/ getSecond()|獲得當前對象對應的小時、分鐘、秒|
+|withDayOfMonth() / withDayOfYear()/ withMonth() / withYear()| 將於分天數、年份天數、月份、年份修改成指定的值並返回新的對象|
+|minusMonths() / minusWeeks() / minusDays()/ minusYears()/ minusHours()|從當前對象減去幾月、幾週、幾天、幾年、幾小時|  
+
+#### Instant
+> 時間線上的一個順時點/
 
 ## Java比較器- 比較大小
+Java中的对象，正常情况下，只能进行比较：==  或  != 。不能使用 > 或 < 的
+但是在开发场景中，我们需要对多个对象进行排序，言外之意，就需要比较对象的大小。
+如何实现？使用两个接口中的任何一个：Comparable 或 Comparator
 
+方式一: 自然排序: java.lang.Comparable  
+> Comparable接口強行對實現它的每個類的對象進行整體排序。這種排序被稱為類的自然排序  
+> 實現Comparable的類必須實現compareTo(Object obj)方法，兩個對象即通過compareTo(Object obj)方法的返回值來比較大小。 如果當前this大於形參，返回整數，else返回負數，==返回0  
+> 
 ## System類
 
 ## Math類

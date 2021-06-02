@@ -119,4 +119,127 @@ public enum Season implements Info{
 }
 
 ```
-## 註解
+## 註解  - JDK 5新增的功能
+概述:  
+> Annotation 其實就是代碼裡的特許標記, 這些標記可以在編譯，類加載，運行時被讀取，並執行相應的處理。  
+> 使用annotation, 程序員可以在不改變原邏輯的情況下，在源文件中嵌入一些不從信息  
+> 在JavaEE / Android中註解佔據了重要的角色，例如配置應用程序的任何切面，代替JavaEE舊版遺留的繁冗  
+框架  = 注解 + 反射機制 + 設計模式
+
+Annotation示例
+**使用Annotation時，前面增加@符號，並把該Annotation當成一個修飾符使用**  
+
+示例一: 生成文檔相關的註解
+```
+@author:表明開發該模塊的作者
+@version: 標明類模塊的版本
+@see: 參考轉向，也就是相關主題
+@since: 從那個版本開始增加
+@param: 對方法中的某參數說明 -方法 格式:@parm 形參名 形參類型 形參說明
+@return: 對方法返回值說明 - 方法 格式@return 返回值類型 返回值說明
+@exception: 可能拋出的異常說明 -方法 @exception 異常類型 異常說明
+```
+package com.annotation.javadoc;
+/**
+* @author shkstart
+* @version 1.0
+* @see Math.java
+*/
+public class JavadocTest {
+/**
+* 程序的主方法，程序的入口
+* @param args String[] 命令行参数
+*/
+public static void main(String[] args) {
+}
+/**
+* 求圆面积的方法
+* @param radius double 半径值
+* @return double 圆的面积
+*/
+public static double getArea(double radius){
+return Math.PI * radius * radius;
+}
+}
+
+```
+
+示例二:在編譯時進行格式檢查(JDK內置的三個基本註解)
+```
+@Override: 限定重寫父類方法，該註解只能用於方法
+@Deprecated: 用於表示所修飾的元素(類，方法等)已過時。
+@SuppressWarnings: 抑制編譯器警告  
+
+public class AnnotationTest{
+  public static void main(String [] args){
+    @SuppressWarnings("unused")
+    int a = 10;
+    
+    @Deprecated
+    public void print(){
+      System.out.print("過時方法");
+    }
+    @Override
+    public String toString() {
+      return "重写的toString方法()";
+    }
+  }
+}
+
+```
+示例三: 跟踪代碼依賴性，實現替代配置文件功能  
+```Java
+  //Servlet3.0提供了注解(annotation),使得不再需要在web.xml文件中进行Servlet的部署。
+  @WebServlet("/login")
+public class LoginServlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws
+  ServletException, IOException { }
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+doGet(request, response);
+} }
+
+```
+自定義Annotation
+定義新的Annotation類型使用@interface關鍵字
+自定義註解自動繼承了java.lang.annotation.Annotation接口
+* ② 内部定义成员，通常使用value表示
+ * ③ 可以指定成员的默认值，使用default定义
+ * ④ 如果自定义注解没成员，表明是一个标识作用。
+@MyAnnotation(value="尚硅谷")
+public class MyAnnotationTest {
+  public static void main(String[] args) {
+    Class clazz = MyAnnotationTest.class;
+    Annotation a = clazz.getAnnotation(MyAnnotation.class);
+    MyAnnotation m = (MyAnnotation) a;
+    String info = m.value();
+    System.out.println(info);
+  }
+}
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@interface MyAnnotation{
+  String value() default "auguigu";
+}
+
+4. 元注解 ：对现有的注解进行解释说明的注解。 
+jdk 提供的4种元注解：
+Retention：指定所修饰的 Annotation 的生命周期：SOURCE\CLASS（默认行为\RUNTIME
+       只声明为RUNTIME生命周期的注解，才能通过反射获取。
+       
+Target:用于指定被修饰的 Annotation 能用于修饰哪些程序元素
+
+*******出现的频率较低*******
+Documented:表示所修饰的注解在被javadoc解析时，保留下来。
+Inherited:被它修饰的 Annotation 将具继承性。
+
+5. 如何获取注解信息:通过发射来进行获取、调用。
+前提：要求此注解的元注解Retention中声明的生命周期状态为：RUNTIME.
+6.JDK8中注解的新特性：可重复注解、类型注解
+
+6.1 可重复注解：① 在MyAnnotation上声明@Repeatable，成员值为MyAnnotations.class
+               ② MyAnnotation的Target和Retention等元注解与MyAnnotations相同。
+
+6.2 类型注解：
+ElementType.TYPE_PARAMETER 表示该注解能写在类型变量的声明语句中（如：泛型声明。
+ElementType.TYPE_USE 表示该注解能写在使用类型的任何语句中。
